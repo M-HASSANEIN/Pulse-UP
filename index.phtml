@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <title>PHP</title>
+    <link rel="stylesheet" href="order-form.css">
+</head>
+
+<body>
+    <section>
+        <h1>le résultat de l’utilisateur </h1>
+        <form action="index.php" method="POST">
+            <label for="pet-select"></label>
+            <select name="user" id="user-select">
+                <option value="">--Please choose USER-- </option>
+                <?php foreach ($Users as $User): ?>
+                    <option value="<?=htmlspecialchars($User)?>"><?=htmlspecialchars($User)?></option>
+                <?php endforeach?>
+            </select>
+            <input type="submit" value="submit">
+        </form>
+        <?php if (!empty($_POST["user"])): ?>
+            <table class="standard-table">
+                <caption>Liste des utilisateurs
+                </caption>
+                <thead>
+                    <tr>
+                        <th>Order NUMBER</th>
+                        <th>UTILISATEUR</th>
+                        <th>Quantity</th>
+                        <th>PRODUIT </th>
+                        <th>DATE </th>
+                        <th>PERIOD</th>
+                        <th>POINTS </th>
+                        <th>EUROS </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($orders as $order): ?>
+                        <tr>
+                            <td><?=htmlspecialchars($order["id_order"])?></td>
+                            <td><?=htmlspecialchars($order["UserId"])?></td>
+                            <td><?=htmlspecialchars($order["Quantity"])?></td>
+                            <td><?=htmlspecialchars($order["ProductName"])?></td>
+                            <td><?=htmlspecialchars($order["OrderDate"])?></td>
+                            <td>
+                                <?php if ($order["OrderDate"] >= $period1_val1 && $order["OrderDate"] <= $period1_val2): ?>
+                                    <?="period 1";?>
+                                <?php elseif ($order["OrderDate"] >= $period2_val1 && $order["OrderDate"] <= $period2_val2): ?>
+                                    <?="period 2";?>
+                                <?php elseif ($order["OrderDate"] >= $period3_val1 && $order["OrderDate"] <= $period3_val2): ?>
+                                    <?="period 3";?>
+                                <?php else: ?>
+                                    <?="not in the period";?>
+                                <?php endif?>
+                            </td>
+                            <td><?php if ($order["ProductName"] == "PRODUIT 1"): ?>
+                                    <?=$order["Quantity"] * 5;?>
+                                <?php elseif ($order["ProductName"] == "PRODUIT 2" & $order["Quantity"] > 1): ?>
+                                        <?=$order["Quantity"] * 5;?>
+                                <?php elseif ($order["ProductName"] == "PRODUIT 3" && $order["Quantity"] > 2): ?>
+                                    <?=($order["Quantity"] / 2) * 15;?>
+                                <?php elseif ($order["ProductName"] == "PRODUIT 4"): ?>
+                                    <?=($order["Quantity"]) * 35;?>
+                                <?php else: ?>
+                                    <?=00?>
+                                <?php endif?>
+                            </td>
+
+                            <td><?php if ($order["ProductName"] == "PRODUIT 1"): ?>
+                                    <?=($order["Quantity"] * 5) * $PointValEuro;?>
+                                <?php elseif ($order["ProductName"] > 1 && $order["ProductName"] == "PRODUIT 2"): ?>
+                                    <?=($order["Quantity"] * 5) * $PointValEuro;?>
+                                <?php elseif ($order["ProductName"] == "PRODUIT 3" && $order["Quantity"] > 2): ?>
+                                    <?=(($order["Quantity"] / 2) * 15) * $PointValEuro;?>
+                                <?php elseif ($order["ProductName"] == "PRODUIT 4"): ?>
+                                    <?=(($order["Quantity"]) * 35) * $PointValEuro;?>
+                                <?php else: ?>
+                                    <?=00?>
+                                    <?php endif?>EUR</td>
+                            <td> </td>
+                        </tr>
+                    <?php endforeach?>
+                </tbody>
+            </table>
+        <?php endif;?>
+
+
+
+    </section>
+</body>
+
+</html>
